@@ -9,7 +9,7 @@ export class Task {
   @Prop({ required: true })
   description: string;
 
-  @Prop({ default: TaskStatusEnum.PENDING })
+  @Prop({ type: String, enum: TaskStatusEnum, default: TaskStatusEnum.PENDING })
   status: TaskStatusEnum;
 
   @Prop({ type: Date, required: true })
