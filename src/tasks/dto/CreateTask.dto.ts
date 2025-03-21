@@ -26,4 +26,8 @@ export class CreateTaskDto {
   @IsString()
   @IsNotEmpty()
   user: string;
+
+  @IsString()
+  @IsNotEmpty()
+  category: string;
 }
