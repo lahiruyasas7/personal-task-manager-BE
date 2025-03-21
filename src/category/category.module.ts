@@ -4,6 +4,7 @@ import { CategoryController } from './category.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Category, CategorySchema } from 'src/schemas/category.schema';
 import { User, UserSchema } from 'src/schemas/user.schema';
+import { Task, TaskSchema } from 'src/schemas/tasks.scehma';
 
 @Module({
   imports: [
@@ -15,6 +16,10 @@ import { User, UserSchema } from 'src/schemas/user.schema';
       {
         name: User.name,
         schema: UserSchema,
+      },
+      {
+        name: Task.name,
+        schema: TaskSchema,
       },
     ]),
   ],
