@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { TaskStatusEnum } from './enum';
+import { Types } from 'mongoose';
+import { User } from './user.schema';
 
 @Schema({ timestamps: true })
 export class Task {
@@ -14,6 +16,9 @@ export class Task {
 
   @Prop({ type: Date, required: true })
   dueDate: Date;
+
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  user: User;
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task);
