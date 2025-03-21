@@ -3,6 +3,7 @@ import { TasksService } from './tasks.service';
 import { TasksController } from './tasks.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Task, TaskSchema } from 'src/schemas/tasks.scehma';
+import { User, UserSchema } from 'src/schemas/user.schema';
 
 @Module({
   imports: [
@@ -10,6 +11,10 @@ import { Task, TaskSchema } from 'src/schemas/tasks.scehma';
       {
         name: Task.name,
         schema: TaskSchema,
+      },
+      {
+        name: User.name,
+        schema: UserSchema,
       },
     ]),
   ],
