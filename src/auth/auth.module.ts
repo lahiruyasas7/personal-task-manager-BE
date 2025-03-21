@@ -5,6 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/schemas/user.schema';
+import { Task, TaskSchema } from 'src/schemas/tasks.scehma';
 
 @Module({
   imports: [
@@ -19,6 +20,10 @@ import { User, UserSchema } from 'src/schemas/user.schema';
       {
         name: User.name,
         schema: UserSchema,
+      },
+      {
+        name: Task.name,
+        schema: TaskSchema,
       },
     ]),
   ],
