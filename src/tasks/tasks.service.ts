@@ -29,4 +29,9 @@ export class TasksService {
     const newTask = new this.taskModel(createTaskDto);
     return await newTask.save();
   }
+
+  async getAllTasks() {
+    const data = await this.taskModel.find();
+    return data;
+  }
 }
