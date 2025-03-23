@@ -79,4 +79,22 @@ export class TasksService {
       throw new InternalServerErrorException(error);
     }
   }
+
+  async deleteTask(id: string) {
+    try {
+      const existingTask = await this.taskModel.findById(id);
+      if (!existingTask) {
+        throw new NotFoundException('task not found');
+      }
+      await this.taskModel.deleteOne({ _id: id });
+
+      return { message: 'Task deleted successfully' };
+    } catch (error) {
+      this.logger.error(error);
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(error);
+    }
+  }
 }
