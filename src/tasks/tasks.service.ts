@@ -97,4 +97,22 @@ export class TasksService {
       throw new InternalServerErrorException(error);
     }
   }
+
+  async getTasksByCategoryId(id: string) {
+    try {
+      const existingCategory = await this.categoryModel.findById(id);
+
+      if (!existingCategory) {
+        throw new NotFoundException('category not found');
+      }
+
+      return await this.taskModel.find({ category: id });
+    } catch (error) {
+      this.logger.error(error);
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(error);
+    }
+  }
 }
