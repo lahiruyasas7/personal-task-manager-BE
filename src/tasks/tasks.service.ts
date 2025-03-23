@@ -63,4 +63,20 @@ export class TasksService {
       throw new InternalServerErrorException(error);
     }
   }
+
+  async getTaskById(id: string) {
+    try {
+      const existingTask = await this.taskModel.findById(id);
+      if (!existingTask) {
+        throw new NotFoundException('task not found');
+      }
+      return existingTask;
+    } catch (error) {
+      this.logger.error(error);
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(error);
+    }
+  }
 }
