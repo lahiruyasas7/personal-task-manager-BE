@@ -10,6 +10,7 @@ import { Model } from 'mongoose';
 import { Category } from 'src/schemas/category.schema';
 import { User } from 'src/schemas/user.schema';
 import { CreateCategoryDto } from './dto/create-category.dto';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Injectable()
 export class CategoryService {
@@ -51,13 +52,37 @@ export class CategoryService {
 
   async getCategoryById(id: string) {
     try {
-      const existingCategory = await this.categoryModel.findById(id);
+      const existingCategory = await this.categoryModel
+        .findById(id)
+        .populate({ path: 'task', model: 'Task' })
+        .exec();
 
       if (!existingCategory) {
         throw new NotFoundException('category not found');
       }
 
       return existingCategory;
+    } catch (error) {
+      this.logger.error(error);
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async updateCategory(id: string, updateCategoryDto: UpdateCategoryDto) {
+    try {
+      const existingCategory = await this.categoryModel.findById(id);
+
+      if (!existingCategory) {
+        throw new NotFoundException('category not found');
+      }
+
+      await this.categoryModel.findByIdAndUpdate(id, updateCategoryDto, {
+        new: true, // Returns the updated document
+        runValidators: true, // Ensures validation rules are applied
+      });
     } catch (error) {
       this.logger.error(error);
       if (error instanceof NotFoundException) {
