@@ -39,8 +39,13 @@ export class TasksService {
   }
 
   async getAllTasks() {
-    const data = await this.taskModel.find();
-    return data;
+    try {
+      const data = await this.taskModel.find();
+      return data;
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException(error);
+    }
   }
 
   async updateTask(id: string, updateTaskDto: UpdateTaskDto) {
