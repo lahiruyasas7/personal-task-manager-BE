@@ -91,4 +91,22 @@ export class CategoryService {
       throw new InternalServerErrorException(error);
     }
   }
+
+  async deleteCategory(id: string) {
+    try {
+      const existingTask = await this.categoryModel.findById(id);
+      if (!existingTask) {
+        throw new NotFoundException('task not found');
+      }
+      await this.categoryModel.deleteOne({ _id: id });
+
+      return { message: 'Category deleted successfully' };
+    } catch (error) {
+      this.logger.error(error);
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(error);
+    }
+  }
 }
