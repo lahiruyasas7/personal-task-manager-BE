@@ -1,4 +1,10 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Category } from 'src/schemas/category.schema';
@@ -7,6 +13,7 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 
 @Injectable()
 export class CategoryService {
+  private readonly logger = new Logger(CategoryService.name);
   constructor(
     @InjectModel(Category.name) private categoryModel: Model<Category>,
     @InjectModel(User.name) private userModel: Model<User>,
@@ -20,5 +27,43 @@ export class CategoryService {
     }
     const newCategory = new this.categoryModel(createCategoryDto);
     return await newCategory.save();
+  }
+
+  async getAllCategoryByUserId(userId: string) {
+    try {
+      const existingUser = await this.userModel.findById(userId);
+
+      if (!existingUser) {
+        throw new NotFoundException('user not exist');
+      }
+
+      const categories = await this.categoryModel.find({ user: userId });
+
+      return categories;
+    } catch (error) {
+      this.logger.error(error);
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async getCategoryById(id: string) {
+    try {
+      const existingCategory = await this.categoryModel.findById(id);
+
+      if (!existingCategory) {
+        throw new NotFoundException('category not found');
+      }
+
+      return existingCategory;
+    } catch (error) {
+      this.logger.error(error);
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(error);
+    }
   }
 }
