@@ -15,4 +15,9 @@ export class CategoryController {
   getCategoriesByUserId(@Param('id') id: string) {
     return this.categoryService.getAllCategoryByUserId(id);
   }
+
+  @Get('get-one/:id')
+  getCategoryById(@Param('id') id: string) {
+    return this.categoryService.getCategoryById(id);
+  }
 }
