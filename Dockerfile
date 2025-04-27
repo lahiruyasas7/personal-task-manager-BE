@@ -12,6 +12,10 @@ RUN npm install
 
 COPY . .
 
+# Accept build argument and set it as environment variable
+ARG JWT_SECRET
+ENV JWT_SECRET=$JWT_SECRET
+
 RUN pnpm run build
 
 EXPOSE 3000
