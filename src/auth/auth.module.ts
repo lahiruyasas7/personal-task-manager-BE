@@ -34,5 +34,6 @@ import { Category, CategorySchema } from 'src/schemas/category.schema';
   ],
   controllers: [AuthController],
   providers: [AuthService, JWTAuthService],
+  exports: [JWTAuthService],
 })
 export class AuthModule {}
