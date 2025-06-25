@@ -19,7 +19,17 @@ async function bootstrap() {
     .setTitle('Personal Task Manger API')
     .setDescription('API for Personal Task Manager')
     .setVersion('1.0')
-    .addTag('') // Optional: add tags for grouping endpoints
+    .addTag('')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'Authorization',
+        in: 'header',
+      },
+      'access-token',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
