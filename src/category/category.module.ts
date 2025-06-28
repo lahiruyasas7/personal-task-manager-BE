@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Category, CategorySchema } from 'src/schemas/category.schema';
 import { User, UserSchema } from 'src/schemas/user.schema';
 import { Task, TaskSchema } from 'src/schemas/tasks.scehma';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { Task, TaskSchema } from 'src/schemas/tasks.scehma';
         schema: TaskSchema,
       },
     ]),
+    AuthModule,
   ],
   controllers: [CategoryController],
   providers: [CategoryService],
