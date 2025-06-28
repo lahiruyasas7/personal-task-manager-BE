@@ -20,7 +20,7 @@ import {
 import { AuthGuard } from 'src/auth/auth.guard';
 
 @ApiTags('Tasks')
-@ApiBearerAuth()
+@ApiBearerAuth('access-token')
 @Controller('tasks')
 @UseGuards(AuthGuard)
 export class TasksController {
